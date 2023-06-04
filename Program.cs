@@ -1,13 +1,20 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Practicas1.Data;
+using Microsoft.EntityFrameworkCore;
+using Practicas1.BLL;
+using Practicas1.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
+
+var ConStr = builder.Configuration.GetConnectionString("ConStr");
+
+builder.Services.AddDbContext<Context>(Options => Options.UseSqlite(ConStr));
+
+builder.Services.AddScoped<PruebasBLL>();
 
 var app = builder.Build();
 
